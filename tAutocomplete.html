@@ -72,6 +72,7 @@
             }
 
             .adropdown-input {
+                
                 padding: 2px 25px 2px 5px;
                 outline: 0;
                 border-left: 1px solid #A9A9A9;
@@ -79,7 +80,16 @@
                 border-bottom: 1px solid #A9A9A9;
                 border-right: 10px solid #A9A9A9;
                 margin: 0px;
-                font-size: 12px;
+                font-size: 18px;
+                
+                /*padding: 2px 25px 2px 5px;
+                outline: 0;
+                border-left: 1px solid #A9A9A9;
+                border-top: 1px solid #A9A9A9;
+                border-bottom: 1px solid #A9A9A9;
+                border-right: 10px solid #A9A9A9;
+                margin: 0px;
+                font-size: 12px;*/
             }
 
                 .adropdown-input::-ms-clear {
@@ -151,6 +161,9 @@
                         text: function () {
                             return el.ddTextbox.data("text");
                         },
+                        searchdata: function () {
+                            return el.ddTextbox.val();
+                        },
                         isNull: function () {
                             if (el.ddTextbox.data("id") == "")
                                 return true;
@@ -180,6 +193,9 @@
 
                     var orginalTextBox = this;
 
+                    // wrap the div for style
+                    this.wrap("<div style='position: relative; display:inline-block; border:0px solid blue;'></div>");
+
                     // create a textbox for input
                     this.after(el.ddTextbox);
                     el.ddTextbox.attr("autocomplete", "off");
@@ -191,9 +207,6 @@
                             el.ddTextbox.attr("data-" + key, settings.dataproperty[key]);
                         }
                     }
-
-                    // wrap the div for style
-                    this.wrap("<div style='position: relative;'></div>");
 
                     // append div after the textbox
                     this.after(el.ddDiv);
@@ -466,7 +479,19 @@
                         { "id": 105, "customer": "Megamarthon Compnay", "address": "Some Address, India" },
                         { "id": 106, "customer": "Brand and Co.", "address": "Some Address, USA" },
                         { "id": 107, "customer": "Marian and Co.", "address": "Some Address, Germany" }];
-                        return data;
+
+                        var filterData = [];
+
+                        var searchData = eval("/" + text2.searchdata() + "/gi");
+                        
+                        $.each(data, function(i,v)
+                        {
+                            if (v.customer.search(new RegExp(searchData)) != -1) {
+                                filterData.push(v);
+                            }
+                        });
+
+                        return filterData;
                     },
                     callback: function () {
                         alert("Selected Text is " + text2.text() + " \nSelected ID is " + text2.id());
@@ -476,6 +501,8 @@
         </script>
     </head>
     <body><br /><br /><br /><br /><br />
-        <input type="text" id="Text2"/>
+        <div style="width: 100%; text-align:center;">
+            <input type="text" id="Text2" style="width: 200px;" />
+        </div>
     </body>
 </html>
