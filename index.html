@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>Autocomplete-Table by vyasrao</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>Autocomplete-Table</h1>
+        <h2>An autocomplete in the form of table</h2>
+        <a href="https://github.com/vyasrao/tAutocomplete" class="button"><small>View project on</small>GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h3>
+<a name="autocomplete---table" class="anchor" href="#autocomplete---table"><span class="octicon octicon-link"></span></a>Autocomplete - Table</h3>
+
+<p>One major challenge we faced in autocomplete was to display the data in a tabular format. When there are many rows of information available, it was difficult to display the relevant data of a row next to each other. This forced to develop a JQuery plugin which can display the relevant information in a table format.</p>
+
+<p>The initialization is simple as like any other plugin</p>
+
+<pre><code>var myData = $("#mytextbox").tautocomplete();
+</code></pre>
+
+<h3>
+<a name="parameters" class="anchor" href="#parameters"><span class="octicon octicon-link"></span></a>Parameters</h3>
+
+<p>The plugin has following parameters,</p>
+
+<p>Table width, example:</p>
+
+<pre><code>width: specify the table width
+</code></pre>
+
+<p>Table columns. The first column is always the ID. This should not be mentioned in the parameter, example: </p>
+
+<pre><code>columns: ['Country', 'Code', 'Capital']
+</code></pre>
+
+<p>Callback function is triggered once a selection is made, example:</p>
+
+<pre><code>callback: function () {alert("Selected ID is : text2.id()); }
+</code></pre>
+
+<p>Message to be displayed when no records found, example: </p>
+
+<pre><code>norecord: "No Records Found"
+</code></pre>
+
+<p>Data Property for the textbox can also be mentioned, example:</p>
+
+<pre><code>dataproperty: {"mandatory":"yes", "property": "something"}
+</code></pre>
+
+<p>Allowed inputs in the textbox can be mentioned using Regex, default is:</p>
+
+<pre><code>regex: "^[a-zA-Z0-9\b]+$"
+</code></pre>
+
+<p>A callback function which passes the information to be displayed in the autocomplete table.
+In the below example, the textbox is used to search the countries. The function filters the data and passes the relevant information to be shown in the autocomplete-table.</p>
+
+<pre><code>data: function () {
+    var data = [
+                { "id": 1, "country": "Afghanistan", "code": "AFG", "capital": "Kabul" }, 
+                { "id": 2, "country": "Albania", "code": "ALB", "capital": "Tirane" },
+                { "id": 11, "country": "Azerbaijan", "code": "AZE", "capital": "Baku" }, 
+                { "id": 12, "country": "The Bahamas", "code": "THA", "capital": "Nassau" }];
+    var filterData = [];
+    var searchData = eval("/" + text2.searchdata() + "/gi");
+    $.each(data, function(i,v)
+    {
+      if (v.country.search(new RegExp(searchData)) != -1) {filterData.push(v);}});
+      return filterData;
+    }
+</code></pre>
+
+<h3>
+<a name="properties" class="anchor" href="#properties"><span class="octicon octicon-link"></span></a>Properties</h3>
+
+<p>The following Properties are available for the plugin</p>
+
+<p>id: returns the ID of the selected row</p>
+
+<pre><code>text2.id()
+</code></pre>
+
+<p>text: returns the TEXT of the selected row</p>
+
+<pre><code>text2.text()
+</code></pre>
+
+<p>searchdata: returns the text which user is trying to search</p>
+
+<pre><code>text2.searchdata()
+</code></pre>
+
+<p>isNull: returns true if no selection is made</p>
+
+<pre><code>text2.isNull()
+</code></pre>
+
+<h3>
+<a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
+
+<p>Having trouble with Pages? Contact <a href="https://github.com/vyasrao" class="user-mention">@vyasrao</a> and we’ll help you sort it out.</p>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/vyasrao/tAutocomplete/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/vyasrao/tAutocomplete/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/vyasrao/tAutocomplete"></a> is maintained by <a href="https://github.com/vyasrao">vyasrao</a>.</p>
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+  
+  </body>
+</html>
