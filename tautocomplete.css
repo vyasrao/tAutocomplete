@@ -20,6 +20,9 @@
         color: #999;
         cursor: default;
         width: 100%;
+        border-left: 0px;
+        border-right: 0px;
+        border-top: 0px;
     }
 
     .adropdown tr:hover {
@@ -44,6 +47,10 @@
         padding: 5px;
         min-height: 15px;
         border-bottom: 1px solid #eee;
+        border-left: 0px;
+        border-right: 0px;
+        border-top: 0px;
+        text-align:left;
     }
 
     .adropdown .selected {
