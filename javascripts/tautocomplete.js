@@ -7,8 +7,9 @@
         var settings = $.extend({
             width: "500px",
             columns: [],
-            callback: null,
+            onchange: null,
             norecord: "No Records Found",
+            placeholder: null,
             dataproperty: null,
             regex: "^[a-zA-Z0-9\b]+$",
             data: null
@@ -75,6 +76,7 @@
         // create a textbox for input
         this.after(el.ddTextbox);
         el.ddTextbox.attr("autocomplete", "off");
+        el.ddTextbox.attr("placeholder", settings.placeholder);
         el.ddTextbox.css("width", this.width + "px");
 
         // append data property
@@ -226,9 +228,9 @@
             hideDropDown();
 
             // callback function
-            if ($.isFunction(settings.callback)) {
+            if ($.isFunction(settings.onchange)) {
                 // settings.callback =
-                settings.callback.call(this);
+                settings.onchange.call(this);
             }
             else {
                 // default function for callback
@@ -299,7 +301,6 @@
                             row = row + "<td>" + cell + "</td>";
                         }
                         else {
-                            alert("TEST");
                             continue;
                         }
                         j++;
