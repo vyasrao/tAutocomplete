@@ -7,11 +7,12 @@
         var settings = $.extend({
             width: "500px",
             columns: [],
-            callback: null,
+            onchange: null,
             norecord: "No Records Found",
             dataproperty: null,
             regex: "^[a-zA-Z0-9\b]+$",
-            data: null
+            data: null,
+            placeholder: null
         }, options);
 
         // initialize DOM elements
@@ -29,6 +30,11 @@
             TAB: 9
         };
 
+        var errors = {
+            columnNA: "Error: Columns Not Defined",
+            dataNA: "Error: Data Not Available"
+        };
+        
         // methods to be used outside the plugin
         var tautocomplete = {
             id: function () {
@@ -77,6 +83,15 @@
         el.ddTextbox.attr("autocomplete", "off");
         el.ddTextbox.css("width", this.width + "px"); 
         el.ddTextbox.css("font-size", this.css("font-size"));
+        el.ddTextbox.attr("placeholder", settings.placeholder);
+
+        if (settings.columns == "" || settings.columns == null) {
+            el.ddTextbox.attr("placeholder", errors.columnNA);
+        }
+        else if (settings.data == "" || settings.data == null) {
+            el.ddTextbox.attr("placeholder", errors.dataNA);
+        }
+
         // append data property
         if (settings.dataproperty != null) {
             for (var key in settings.dataproperty) {
@@ -223,12 +238,12 @@
             orginalTextBox.val(selected.find('td').eq(0).text() + '#$#' + selected.find('td').eq(1).text());
             hideDropDown();
 
-            // callback function
-            if ($.isFunction(settings.callback)) {
-                settings.callback.call(this);
+            // onchange callback function
+            if ($.isFunction(settings.onchange)) {
+                settings.onchange.call(this);
             }
             else {
-                // default function for callback
+                // default function for onchange
             }
             el.ddTextbox.focus();
         }
