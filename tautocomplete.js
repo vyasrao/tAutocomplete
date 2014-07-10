@@ -299,6 +299,7 @@
                             row = row + "<td>" + cell + "</td>";
                         }
                         else {
+                            alert("TEST");
                             continue;
                         }
                         j++;
