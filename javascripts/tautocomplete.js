@@ -9,10 +9,10 @@
             columns: [],
             onchange: null,
             norecord: "No Records Found",
-            placeholder: null,
             dataproperty: null,
             regex: "^[a-zA-Z0-9\b]+$",
-            data: null
+            data: null,
+            placeholder: null
         }, options);
 
         // initialize DOM elements
@@ -30,6 +30,11 @@
             TAB: 9
         };
 
+        var errors = {
+            columnNA: "Error: Columns Not Defined",
+            dataNA: "Error: Data Not Available"
+        };
+        
         // methods to be used outside the plugin
         var tautocomplete = {
             id: function () {
@@ -76,8 +81,16 @@
         // create a textbox for input
         this.after(el.ddTextbox);
         el.ddTextbox.attr("autocomplete", "off");
+        el.ddTextbox.css("width", this.width + "px"); 
+        el.ddTextbox.css("font-size", this.css("font-size"));
         el.ddTextbox.attr("placeholder", settings.placeholder);
-        el.ddTextbox.css("width", this.width + "px");
+
+        if (settings.columns == "" || settings.columns == null) {
+            el.ddTextbox.attr("placeholder", errors.columnNA);
+        }
+        else if (settings.data == "" || settings.data == null) {
+            el.ddTextbox.attr("placeholder", errors.dataNA);
+        }
 
         // append data property
         if (settings.dataproperty != null) {
@@ -154,8 +167,6 @@
                 else {
                     // default function
                 }
-
-
             }, 1000);
         });
 
@@ -227,13 +238,12 @@
             orginalTextBox.val(selected.find('td').eq(0).text() + '#$#' + selected.find('td').eq(1).text());
             hideDropDown();
 
-            // callback function
+            // onchange callback function
             if ($.isFunction(settings.onchange)) {
-                // settings.callback =
                 settings.onchange.call(this);
             }
             else {
-                // default function for callback
+                // default function for onchange
             }
             el.ddTextbox.focus();
         }
@@ -247,10 +257,13 @@
 
         function showDropDown() {
 
+            var cssTop = (el.ddTextbox.height() + 20) + "px 1px 0px 1px";
+            var cssBottom = "1px 1px " + (el.ddTextbox.height() + 20) + "px 1px";
+
             // reset div top, left and margin
             el.ddDiv.css("top", "0px");
             el.ddDiv.css("left", "0px");
-            el.ddTable.css("margin", "35px 1px 0px 1px");
+            el.ddTable.css("margin", cssTop);
 
             el.ddTextbox.addClass("inputfocus");
             el.ddDiv.addClass("highlight");
@@ -259,10 +272,10 @@
             // adjust div top according to the visibility
             if (!isDivHeightVisible(el.ddDiv)) {
                 el.ddDiv.css("top", -1 * (el.ddTable.height()) + "px");
-                el.ddTable.css("margin", "1px 1px 35px 1px");
+                el.ddTable.css("margin", cssBottom);
                 if (!isDivHeightVisible(el.ddDiv)) {
                     el.ddDiv.css("top", "0px");
-                    el.ddTable.css("margin", "35px 1px 0px 1px");
+                    el.ddTable.css("margin", cssTop);
                     $('html, body').animate({
                         scrollTop: (el.ddDiv.offset().top - 60)
                     }, 250);
@@ -274,51 +287,56 @@
             }
         }
         function jsonParser(jsonData) {
+            try{
+                el.ddTextbox.removeClass("loading");
 
-            el.ddTextbox.removeClass("loading");
+                // remove all rows from the table
+                el.ddTable.find("tbody").find("tr").remove();
 
-            // remove all rows from the table
-            el.ddTable.find("tbody").find("tr").remove();
+                var i = 0, j = 0;
+                var row = null, cell = null;
+                if (jsonData != null) {
+                    for (i = 0; i < jsonData.length; i++) {
 
-            var i = 0, j = 0;
-            var row = null, cell = null;
-            if (jsonData != null) {
-                for (i = 0; i < jsonData.length; i++) {
-
-                    // display only 15 rows of data
-                    if (i >= 15)
-                        continue;
-
-                    var obj = jsonData[i];
-                    row = "";
-                    j = 0;
-
-                    for (var key in obj) {
-
-                        // return on column count
-                        if (j <= cols) {
-                            cell = obj[key];
-                            row = row + "<td>" + cell + "</td>";
-                        }
-                        else {
+                        // display only 15 rows of data
+                        if (i >= 15)
                             continue;
+
+                        var obj = jsonData[i];
+                        row = "";
+                        j = 0;
+
+                        for (var key in obj) {
+
+                            // return on column count
+                            if (j <= cols) {
+                                cell = obj[key];
+                                row = row + "<td>" + cell + "</td>";
+                            }
+                            else {
+                                continue;
+                            }
+                            j++;
                         }
-                        j++;
+                        // append row to the table
+                        el.ddTable.append("<tr>" + row + "</tr>");
                     }
-                    // append row to the table
-                    el.ddTable.append("<tr>" + row + "</tr>");
                 }
+                //debugger;
+                // show no records exists
+                if (i == 0)
+                    el.ddTableCaption.show();
+
+                // hide first column (ID row)
+                el.ddTable.find('td:nth-child(1)').hide();
+
+                el.ddTable.find("tbody").find("tr:first").addClass('selected');
+                showDropDown();
             }
-            //debugger;
-            // show no records exists
-            if (i == 0)
-                el.ddTableCaption.show();
-
-            // hide first row (ID row)
-            el.ddTable.find('td:nth-child(1)').hide();
-
-            el.ddTable.find("tbody").find("tr:first").addClass('selected');
-            showDropDown();
+            catch (e)
+            {
+                alert("Error: " + e);
+            }
         }
         return tautocomplete;
     };
