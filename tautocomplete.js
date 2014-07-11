@@ -35,7 +35,7 @@
             dataNA: "Error: Data Not Available"
         };
         
-        // methods to be used outside the plugin
+        // plugin properties
         var tautocomplete = {
             id: function () {
                 return el.ddTextbox.data("id");
@@ -85,6 +85,7 @@
         el.ddTextbox.css("font-size", this.css("font-size"));
         el.ddTextbox.attr("placeholder", settings.placeholder);
 
+        // check for mandatory parameters
         if (settings.columns == "" || settings.columns == null) {
             el.ddTextbox.attr("placeholder", errors.columnNA);
         }
@@ -222,10 +223,20 @@
             hideDropDown();
             // clear if the text value is invalid 
             if ($(this).val() != $(this).data("text")) {
+
+                var change = true;
+                if ($(this).data("text") == "") {
+                    change = false;
+                }
+
                 $(this).data("text", "");
                 $(this).data("id", "");
                 $(this).val("");
                 orginalTextBox.val("");
+
+                if (change) {
+                    onChange();
+                }
             }
         });
 
@@ -237,7 +248,12 @@
             el.ddTextbox.val(selected.find('td').eq(1).text());
             orginalTextBox.val(selected.find('td').eq(0).text() + '#$#' + selected.find('td').eq(1).text());
             hideDropDown();
+            onChange();
+            el.ddTextbox.focus();
+        }
 
+        function onChange()
+        {
             // onchange callback function
             if ($.isFunction(settings.onchange)) {
                 settings.onchange.call(this);
@@ -245,7 +261,6 @@
             else {
                 // default function for onchange
             }
-            el.ddTextbox.focus();
         }
 
         function hideDropDown() {

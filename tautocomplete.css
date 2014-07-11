@@ -67,6 +67,7 @@
         caption-side: bottom;
         padding: 10px;
         display: none;
+        font-size: 12px;
     }
 
 .highlight {
@@ -87,10 +88,10 @@
 .adropdown-input:focus {
     padding: 2px 25px 2px 5px;
     outline: 0;
-    border-left: 1px solid #3498DB;
-    border-top: 1px solid #3498DB;
-    border-bottom: 1px solid #3498DB;
-    border-right: 10px solid #3498DB;
+    border-left: 1px solid #03A9F4;
+    border-top: 1px solid #03A9F4;
+    border-bottom: 1px solid #03A9F4;
+    border-right: 10px solid #03A9F4;
     margin: 0px;
     font-size: 18px;
     width: 250px;
