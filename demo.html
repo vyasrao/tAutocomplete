@@ -3,11 +3,282 @@
 <head>
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+    
+    <script>
+
+    </script>
+
+    <style>
+        @import url(http://fonts.googleapis.com/css?family=RobotoDraft:400,500,700,300);
+
+        body {
+            margin: 0;
+            background: #E5E5E5;
+            font-weight: 300;
+            color: #404040;
+            font-family: "RobotoDraft", Helvetica, Arial, sans-serif;
+            letter-spacing: .1px;
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
+        }
+
+        .toolbar {
+            height: 64px;
+            background: #03A9F4;
+        }
+
+        .tabs {
+            padding-top: 14px;
+        }
+
+            .tabs ul {
+                list-style: none;
+                margin: 0;
+                width: 100%;
+                padding: 0;
+                margin-left: 16px;
+            }
+
+                .tabs ul li {
+                    float: left;
+                    width: 350px;
+                }
+
+            .tabs a {
+                position: relative;
+                color: white;
+                text-decoration: none;
+                display: block;
+                height: 50px;
+                text-align: center;
+                line-height: 52px;
+                font-weight: 500;
+                font-size: 22px;
+                color: rgba(255,255,255,0.6);
+            }
+
+            .tabs .active a {
+                color: white;
+            }
+
+                .tabs .active a:after {
+                    height: 2px;
+                    width: 100%;
+                    display: block;
+                    content: " ";
+                    bottom: 0px;
+                    left: 0px;
+                    position: absolute;
+                    background: #FFFF8D;
+                    -webkit-animation: border-expand 0.2s cubic-bezier(0.4, 0.0, 0.4, 1) 0s alternate forwards;
+                    -moz-animation: border-expand 0.2s cubic-bezier(0.4, 0.0, 0.4, 1) 0s alternate forwards;
+                    transition: all 1s cubic-bezier(0.4, 0.0, 1, 1);
+                }
+
+            .tabs a span {
+                position: absolute;
+                margin-left: -40px;
+                margin-top: -24px;
+                width: 80px;
+                background: rgba(255,255,141,1);
+                height: 100%;
+                display: block;
+                border-radius: 50%;
+                opacity: 0;
+            }
+
+                .tabs a span.clicked {
+                    -webkit-animation: expand 0.6s cubic-bezier(0.4, 0.0, 0.4, 1) 0s normal;
+                    -moz-animation: expand 0.6s cubic-bezier(0.4, 0.0, 0.4, 1) 0s normal;
+                    border-bottom: 2px solid #FFFF8D;
+                }
+
+        .content {
+            box-shadow: inset 0px 5px 6px -3px rgba(0, 0, 0, 0.4);
+            height: 500px;
+            padding-top: 30px;
+            position: relative;
+            top: 0px;
+        }
+
+        .item {
+            background: white;
+            width: 440px;
+            padding-bottom: 0px;
+            margin: 0 auto 2em;
+        }
+
+        .itemhead {
+            padding: 30px;
+            position: relative;
+        }
+
+            .itemhead img {
+                border-radius: 100%;
+                float: left;
+            }
+
+            .itemhead h2 {
+                float: left;
+                margin-left: 20px;
+            }
+
+            .itemhead .heart {
+                cursor: pointer;
+                position: absolute;
+                right: 4px;
+                top: 4px;
+                padding: 7px;
+                border-radius: 2px;
+            }
+
+        .item p:first-of-type {
+            margin-top: 0;
+        }
+
+        .item p {
+            padding: 0px 30px;
+            font-size: 16px;
+            line-height: 26px;
+            margin: 0;
+            margin-top: 1em;
+        }
+
+        .item a {
+            text-decoration: none;
+            color: #00bcd4;
+            font-weight: 500;
+            font-size: 0.8em;
+        }
+
+        .heart:hover {
+            box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.1);
+        }
+
+        .heart #favorite {
+            fill: #636363;
+        }
+
+        .heart.active #favorite {
+            fill: #DA4336;
+        }
+
+        .box {
+            display: none;
+            position: relative;
+        }
+
+            .box.show {
+                display: block;
+            }
+
+        @-webkit-keyframes expand {
+            0% {
+                background: rgba(255,255,141,1);
+                opacity: 1;
+                border-radius: 100%;
+                transform: scale(0);
+                -webkit-transform: scale(0);
+                -moz-transform: scale(0);
+            }
+
+            50% {
+                background: rgba(255,255,141,0.8);
+                border-radius: 50%;
+            }
+
+            100% {
+                background: rgba(255,255,141,0);
+                transform: scale(3);
+                border-radius: 0;
+                -webkit-transform: scale(3);
+                -moz-transform: scale(3);
+                opacity: 1;
+            }
+        }
+
+        @-moz-keyframes expand {
+            0% {
+                background: rgba(255,255,141,1);
+                opacity: 1;
+                border-radius: 100%;
+                transform: scale(0);
+                -moz-transform: scale(0);
+            }
+
+            50% {
+                background: rgba(255,255,141,0.8);
+                border-radius: 50%;
+            }
+
+            100% {
+                background: rgba(255,255,141,0);
+                transform: scale(3);
+                border-radius: 0;
+                -moz-transform: scale(3);
+                opacity: 1;
+            }
+        }
+
+        @-webkit-keyframes border-expand {
+            0% {
+                opacity: 0;
+                width: 0;
+            }
+
+            100% {
+                opacity: 1;
+                width: 100%;
+            }
+        }
+
+        @-moz-keyframes border-expand {
+            0% {
+                opacity: 0;
+                width: 0;
+            }
+
+            100% {
+                opacity: 1;
+                width: 100%;
+            }
+        }
+        .btn {
+            display: inline-block;
+            clear: both;
+            position: relative;
+            font-size: 20px;
+            text-decoration: none;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            padding: 8px 60px;
+            color: #666;
+            background-color:#fff;
+            font-weight: 700;
+            z-index: 1;
+            transition:         0.08s ease-in;
+            -o-transition:      0.08s ease-in;
+            -ms-transition:     0.08s ease-in;
+            -moz-transition:    0.08s ease-in;
+            -webkit-transition: 0.08s ease-in;
+        }
+        .btn:before {
+          content: "";
+          position: absolute;
+          background: #e4f1fe;
+          bottom: 0;
+          left: 0;
+          right: 100%;
+          top: 0;
+          z-index: -1;
+          -webkit-transition: right 0.09s ease-in;
+        }
+
+        .btn:hover:before {
+          right: 0;
+        }
+    </style>
 
     <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
     <script src="javascripts/tautocomplete.js" type="text/javascript"></script>
@@ -42,7 +313,8 @@
                     return filterData;
                 },
                 onchange: function () {
-                    alert("You selected \"" + myData.text() + "\" and its ID is \"" + myData.id() + "\"");
+
+                    $("#country-text1").text("You selected \"" + myData.text() + "\" and ID is \"" + myData.id() + "\"");
                 }
             });
             var myData2 = $("#country2").tautocomplete({
@@ -69,186 +341,56 @@
                     return filterData;
                 },
                 onchange: function () {
-                    alert("You selected \"" + myData2.text() + "\" and its ID is \"" + myData2.id() + "\"");
+                    $("#country-text2").text("You selected \"" + myData2.text() + "\" and ID is \"" + myData2.id() + "\"");
                 }
             });
         });
     </script>
     <title>Autocomplete-Table by vyasrao</title>
 </head>
-
 <body>
-    <header>
-        <div class="inner">
-            <h1>Autocomplete-Table</h1>
-            <h2>An autocomplete in the form of table</h2>
-            <a href="https://github.com/vyasrao/tAutocomplete" class="button"><small>View project on</small>GitHub</a>
+        <div class="toolbar">
+        <div class="tabs">
+            <ul>
+                <li class="tabitem active"><a href="#">AUTOCOMPLETE - TABLE<span></span></a></li>
+            </ul>
         </div>
-    </header>
-
-    <div id="content-wrapper">
-        <div class="inner clearfix">
-            <section id="main-content">
-                <h3><a name="autocomplete---table" class="anchor" href="#autocomplete---table"><span class="octicon octicon-link"></span></a>Autocomplete - Table</h3>
-
-                <p>One major challenge we faced in autocomplete was to display the data in a tabular format. When there are many rows of information available, it was difficult to display the relevant data of a row next to each other. This forced to develop a JQuery plugin which can display the relevant information in a table format.</p>
-
-                <h3><a name="autocomplete---table" class="anchor" href="#autocomplete---table"><span class="octicon octicon-link"></span></a>Advantages</h3>
-                <ul>
-                    <li>Display details in n number of columns</li>
-                    <li>Filter by keyword</li>
-                    <li>Keyboard navigation</li>
-                </ul>
-                
-                <h3><a name="autocomplete---table" class="anchor" href="#autocomplete---table"><span class="octicon octicon-link"></span></a>Demo</h3>
-                <p>Search for a country in the below textbox, the plugin displays the country, code and the capital.</p>
-                <div style="width: 100%; text-align: center;">
-                    <input type="text" id="country1" style="width: 200px; font-size: 22px;" /><br />
-                    <br />
+    </div>
+    <div class="content">
+        <div id="box1" class="box show">
+            <div class="item" style="text-align:center;">
+                <br />
+                <p>SEARCH FOR A COUNTRY</p>
+                <p style="font-size: 11px;">(MULTIPLE COLUMN DROPDOWN)</p>
+                <br />
+                <input type="text" id="country1" style="width: 200px; font-size: 22px;" /><br /><br />
+                <div style="width: 100%; background-color:#95A5A6; min-height: 40px; text-align:center;">
+                    <div id="country-text1" style="height: 50px; width: 400px; display:table-cell; vertical-align:middle; color: #fff; font-size: 16px;">
+                        &nbsp;
+                    </div>
                 </div>
-
-                <p>The plugin can also be used like a simple dropdown. Search for a country in the below textbox</p>
-                <div style="width: 100%; text-align: center;">
-                    <input type="text" id="country2" style="width: 200px; font-size: 22px;" /><br />
-                    <br />
+            </div>
+        </div>
+        <div id="Div1" class="box show" >
+            <div class="item" style="text-align:center;">
+                <br />
+                <p style="font-size: 11px;">(SINGLE COLUMN DROPDOWN)</p>
+                <br />
+                <input type="text" id="country2" style="width: 200px; font-size: 22px;" /><br /><br />
+                <div style="width: 100%; background-color:#95A5A6; min-height: 40px; text-align:center;">
+                    <div id="country-text2" style="height: 50px; width: 400px; display:table-cell; vertical-align:middle; color: #fff; font-size: 16px;">
+                        &nbsp;
+                    </div>
                 </div>
-
-                <h3><a name="autocomplete---table" class="anchor" href="#autocomplete---table"><span class="octicon octicon-link"></span></a>Usage</h3>
-
-                Include js file
-                <pre><code>&lt;script src="javascripts/tautocomplete.js" type="text/javascript"&gt;&lt;/script&gt;</code></pre>
-
-                Include css file
-
-                <pre><code>&lt;link rel="stylesheet" type="text/css" href="tautocomplete.css" media="screen" /&gt;</code></pre>
-
-                <p>The initialization is simple as like any other plugin. Create a textbox and attach the plugin.</p>
-
-                <pre><code>var myData = $("#mytextbox").tautocomplete();</code></pre>
-
-                <h3>
-                    <a name="parameters" class="anchor" href="#parameters"><span class="octicon octicon-link"></span></a>Settings</h3>
-
-                <p>The plugin has following parameters,</p>
-
-                <p>Table width, example:</p>
-
-                <pre><code>width: 500px</code></pre>
-
-                <p>Table columns. The first column is always the ID. This should not be mentioned in the parameter, example: </p>
-
-                <pre><code>columns: ['Country', 'Code', 'Capital']</code></pre>
-
-                <p>placeholder:  The default text displayed whenever no choice has been selected, example:</p>
-
-                <pre><code>placeholder: "Search Country"</code></pre>
-
-                <p>Message to be displayed when no records found, example: </p>
-
-                <pre><code>norecord: "No Records Found"</code></pre>
-
-                <p>Allowed inputs in the textbox can be mentioned using Regex, default is:</p>
-
-                <pre><code>regex: "^[a-zA-Z0-9\b]+$"</code></pre>
-
-                <h3><a name="properties" class="anchor" href="#properties"><span class="octicon octicon-link"></span></a>Callbacks</h3>
-                
-                <p>onchange: Called whenever the user selects an option in the list, example:</p>
-
-                <pre><code>onchange: function () {alert("Selected ID is : myData.id()); }</code></pre>
-
-                <p>
-                    data: A callback function which passes the information to be displayed in the autocomplete table.
-In the below example, the textbox is used to search the countries. The function filters the data and passes the relevant information to be shown in the autocomplete-table.
-                </p>
-
-                <pre><code>data: function () {
-
-    var data = [{ "id": 1, "country": "Afghanistan", "code": "AFG", "capital": "Kabul" }, 
-                { "id": 2, "country": "Albania", "code": "ALB", "capital": "Tirane" },
-                { "id": 3, "country": "Algeria", "code": "DZA", "capital": "Algiers" }
-                ];
-
-    var filterData = [];
-
-    var searchData = eval("/" + myData2.searchdata() + "/gi");
-
-    $.each(data, function (i, v) {
-        if (v.country.search(new RegExp(searchData)) != -1) {
-            filterData.push(v);
-        }
-    });
-    return filterData;
-}
-</code></pre>
-
-                <h3>
-                    <a name="properties" class="anchor" href="#properties"><span class="octicon octicon-link"></span></a>Properties</h3>
-
-                <p>The following Properties are available for the plugin</p>
-
-                <p>id: returns the ID of the selected row</p>
-
-                <pre><code>myData.id()</code></pre>
-
-                <p>text: returns the TEXT of the selected row</p>
-
-                <pre><code>myData.text()</code></pre>
-
-                <p>searchdata: returns the filter text</p>
-
-                <pre><code>myData.searchdata()</code></pre>
-
-                <p>isNull: returns true if selection is empty</p>
-
-                <pre><code>myData.isNull()</code></pre>
-
-                <h3><a name="properties" class="anchor" href="#properties"><span class="octicon octicon-link"></span></a>Pending</h3>
-                <ol>
-                    <li>Not mobile friendly.</li>
-                    <li>Dropdown lists only 15 elements at a time. Scrollbars needs to be added.</li>
-                    <li>Option to add 'Data propoerties' to the textbox can be provided.</li>
-                </ol>
-                <br /><br /><br /><br />
-                <h3><a name="properties" class="anchor" href="#properties"><span class="octicon octicon-link"></span></a>Discuss on the Plugin</h3>
-
-                 <div id="disqus_thread"></div>
-                    <script type="text/javascript">
-                        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-                        var disqus_shortname = 'autocompletetable'; // required: replace example with your forum shortname
-
-                        /* * * DON'T EDIT BELOW THIS LINE * * */
-                        (function () {
-                            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-                            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-                            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-                        })();
-                    </script>
-                    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-                    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-
-                <h3>
-                    <a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
-
-                <p>
-                    Developed by <a href="https://github.com/vyasrao" class="user-mention">@vyasrao</a>. Please list all bugs and feature requests in the <a href="https://github.com/vyasrao/tautocomplete/issues" class="user-mention">Github issue tracker</a>.
-                    <br />Licensed under the MIT license.
-            </section>
-
-            <aside id="sidebar">
-                <a href="https://github.com/vyasrao/tAutocomplete/zipball/master" class="button">
-                    <small>Download</small>
-                    .zip file
-                </a>
-                <a href="https://github.com/vyasrao/tAutocomplete/tarball/master" class="button">
-                    <small>Download</small>
-                    .tar.gz file
-                </a>
-
-                <p class="repo-owner"><a href="https://github.com/vyasrao/tAutocomplete"></a>is maintained by <a href="https://github.com/vyasrao">vyasrao</a>.</p>
-
-                <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
-            </aside>
+            </div>
+        </div>
+        <div style="text-align: center;">
+            <div style="text-align: center; display: inline-block">
+                <a href="https://github.com/vyasrao/tAutocomplete" target="_blank" class="btn">Github</a>
+            </div>
+            <div style="text-align: center; display: inline-block">
+                <a href="http://vyasrao.github.io/tAutocomplete/"  target="_blank" class="btn">Document</a>
+            </div>
         </div>
     </div>
 </body>
