@@ -127,6 +127,16 @@ aside#sidebar p.repo-owner a {
 #downloads {
   margin-bottom: 40px;
 }
+a.button_disqus {
+  width: 134px;
+  height: 58px;
+  line-height: 1.2;
+  font-size: 23px;
+  color: #fff;
+  padding-left: 68px;
+  padding-top: 22px;
+  font-family: 'Architects Daughter', 'Helvetica Neue', Helvetica, Arial, serif; 
+}
 
 a.button {
   width: 134px;
@@ -153,6 +163,34 @@ aside a.button {
   padding-left: 64px;
   display: block;
   background: transparent url(../images/download-button.png) 0 0 no-repeat;
+  margin-bottom: 20px;
+  font-size: 21px;
+}
+a.button-disqus {
+  width: 134px;
+  height: 58px;
+  line-height: 1.2;
+  font-size: 23px;
+  color: #fff;
+  padding-left: 68px;
+  padding-top: 22px;
+  font-family: 'Architects Daughter', 'Helvetica Neue', Helvetica, Arial, serif; 
+}
+a.button-disqus small {
+  display: block;
+  font-size: 11px;
+}
+header a.button-disqus {
+  position: absolute;
+  right: 0;
+  top: 0;
+  background: transparent url(../images/github-button.png) 0 0 no-repeat;
+}
+aside a.button-disqus {
+  width: 172px;
+  padding-left: 30px;
+  display: block;
+  background: transparent url(../images/button.png) 0 0 no-repeat;
   margin-bottom: 20px;
   font-size: 21px;
 }
