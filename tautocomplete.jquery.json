@@ -1,0 +1,25 @@
+{
+    "name": "tautocomplete",
+    "title": "Autocomplete-Table",
+    "description": "Automplete drop-down lists the details in a table format. The plugin is useful when multiple details has to be displayed.",
+    "keywords": [
+        "autocomplete",
+        "table"
+    ],
+    "version": "1.0.0",
+    "author": {
+        "name": "Vedavyas"
+    },
+    "licenses": [
+        {
+            "type": "MIT",
+            "url": "https://raw.githubusercontent.com/vyasrao/tAutocomplete/master/LICENSE"
+        }
+    ],
+    "bugs": "https://github.com/vyasrao/tautocomplete/issues",
+    "homepage": "http://vyasrao.github.io/tAutocomplete",
+    "docs": "http://vyasrao.github.io/tAutocomplete",
+    "dependencies": {
+        "jquery": ">=1.5"
+    }
+}
