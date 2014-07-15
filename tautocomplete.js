@@ -12,7 +12,8 @@
             dataproperty: null,
             regex: "^[a-zA-Z0-9\b]+$",
             data: null,
-            placeholder: null
+            placeholder: null,
+            theme: "acontainer"
         }, options);
 
         // initialize DOM elements
@@ -20,7 +21,7 @@
             ddDiv: $("<div>", { class: "adropdown" }),
             ddTable: $("<table></table>", { style: "width:" + settings.width }),
             ddTableCaption: $("<caption>" + settings.norecord + "</caption>"),
-            ddTextbox: $("<input type='text' class='adropdown-input'>")
+            ddTextbox: $("<input type='text'>")
         };
 
         var keys = {
@@ -76,7 +77,7 @@
         var orginalTextBox = this;
 
         // wrap the div for style
-        this.wrap("<div style='position: relative; display:inline-block; border:0px solid blue;'></div>");
+        this.wrap("<div class='" + settings.theme + "'></div>");
 
         // create a textbox for input
         this.after(el.ddTextbox);
