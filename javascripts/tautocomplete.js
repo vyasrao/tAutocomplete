@@ -76,7 +76,7 @@
         var orginalTextBox = this;
 
         // wrap the div for style
-        this.wrap("<div style='position: relative; display:inline-block; border:0px solid blue;'></div>");
+        this.wrap("<div class='" + settings.theme + "'></div>");
 
         // create a textbox for input
         this.after(el.ddTextbox);
