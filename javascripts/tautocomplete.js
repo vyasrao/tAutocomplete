@@ -12,7 +12,8 @@
             dataproperty: null,
             regex: "^[a-zA-Z0-9\b]+$",
             data: null,
-            placeholder: null
+            placeholder: null,
+            theme: "acontainer"
         }, options);
 
         // initialize DOM elements
@@ -20,7 +21,7 @@
             ddDiv: $("<div>", { class: "adropdown" }),
             ddTable: $("<table></table>", { style: "width:" + settings.width }),
             ddTableCaption: $("<caption>" + settings.norecord + "</caption>"),
-            ddTextbox: $("<input type='text' class='adropdown-input'>")
+            ddTextbox: $("<input type='text'>")
         };
 
         var keys = {
@@ -34,7 +35,7 @@
             columnNA: "Error: Columns Not Defined",
             dataNA: "Error: Data Not Available"
         };
-        
+
         // plugin properties
         var tautocomplete = {
             id: function () {
@@ -81,7 +82,7 @@
         // create a textbox for input
         this.after(el.ddTextbox);
         el.ddTextbox.attr("autocomplete", "off");
-        el.ddTextbox.css("width", this.width + "px"); 
+        el.ddTextbox.css("width", this.width + "px");
         el.ddTextbox.css("font-size", this.css("font-size"));
         el.ddTextbox.attr("placeholder", settings.placeholder);
 
@@ -252,8 +253,7 @@
             el.ddTextbox.focus();
         }
 
-        function onChange()
-        {
+        function onChange() {
             // onchange callback function
             if ($.isFunction(settings.onchange)) {
                 settings.onchange.call(this);
@@ -302,7 +302,7 @@
             }
         }
         function jsonParser(jsonData) {
-            try{
+            try {
                 el.ddTextbox.removeClass("loading");
 
                 // remove all rows from the table
@@ -348,8 +348,7 @@
                 el.ddTable.find("tbody").find("tr:first").addClass('selected');
                 showDropDown();
             }
-            catch (e)
-            {
+            catch (e) {
                 alert("Error: " + e);
             }
         }
