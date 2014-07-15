@@ -7,9 +7,7 @@
     left: 0px;
     text-align: left;
     position: absolute;
-    border: 0px solid red;
 }
-
     .adropdown table {
         font-family: 'Arial';
         margin: 35px 1px 0px 1px;
@@ -50,7 +48,7 @@
         border-left: 0px;
         border-right: 0px;
         border-top: 0px;
-        text-align:left;
+        text-align: left;
     }
 
     .adropdown .selected {
@@ -70,50 +68,50 @@
         font-size: 12px;
     }
 
-.highlight {
-    box-shadow: 0px 0px 20px rgba(0,0,0,0.10), 0px 10px 20px rgba(0,0,0,0.05), 0px 20px 20px rgba(0,0,0,0.05), 0px 30px 20px rgba(0,0,0,0.05);
-    z-index: 999;
+.acontainer {
+    position: relative;
+    display: inline-block;
 }
 
-.adropdown-input {
-    padding: 2px 25px 2px 5px;
-    outline: 0;
-    border-left: 1px solid #A9A9A9;
-    border-top: 1px solid #A9A9A9;
-    border-bottom: 1px solid #A9A9A9;
-    border-right: 10px solid #A9A9A9;
-    margin: 0px;
-    font-size: 12px;
-}
-.adropdown-input:focus {
-    padding: 2px 25px 2px 5px;
-    outline: 0;
-    border-left: 1px solid #03A9F4;
-    border-top: 1px solid #03A9F4;
-    border-bottom: 1px solid #03A9F4;
-    border-right: 10px solid #03A9F4;
-    margin: 0px;
-    font-size: 18px;
-    width: 250px;
-}
-    .adropdown-input::-ms-clear {
-        width: 0;
-        height: 0;
+    .acontainer input {
+        border-radius: 2px;
+        color: #000;
+        font-family: 'Open Sans', sans-serif;
+        font-size: 1em;
+        transition: background 0.3s ease-in-out;
+        width: 100%;
+        padding: 2px 25px 2px 5px;
+        outline: 0;
+        border-left: 1px solid #ccc;
+        border-top: 1px solid #ccc;
+        border-bottom: 1px solid #ccc;
+        border-right: 10px solid #ccc;
+        margin: 0px;
     }
+
+        .acontainer input:focus {
+            padding: 2px 25px 2px 5px;
+            margin: 0px;
+            outline: none;
+            border-color: #9ecaed;
+            box-shadow: 0 0 2px #9ecaed;
+        }
+
+        .acontainer input::-ms-clear {
+            width: 0;
+            height: 0;
+        }
 .inputfocus {
     outline: 0;
-    border-left: 1px solid #A9A9A9;
-    border-top: 1px solid #A9A9A9;
-    border-bottom: 1px solid #A9A9A9;
-    border-right: 10px solid #A9A9A9;
-    font-size: 14px;
     min-width: 140px;
-    padding: 0px;
-    background: none;
     margin: 5px 0px 5px 5px !important;
     position: relative;
     z-index: 1000;
 }
 .loading {
     background: url(img/loading.gif) no-repeat right center;
+}
+.highlight {
+    box-shadow: 0px 0px 20px rgba(0,0,0,0.10), 0px 10px 20px rgba(0,0,0,0.05), 0px 20px 20px rgba(0,0,0,0.05), 0px 30px 20px rgba(0,0,0,0.05);
+    z-index: 999;
 }
