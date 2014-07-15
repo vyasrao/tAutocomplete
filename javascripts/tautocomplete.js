@@ -337,7 +337,7 @@
                         el.ddTable.append("<tr>" + row + "</tr>");
                     }
                 }
-                //debugger;
+
                 // show no records exists
                 if (i == 0)
                     el.ddTableCaption.show();
