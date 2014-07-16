@@ -13,12 +13,23 @@
             regex: "^[a-zA-Z0-9\b]+$",
             data: null,
             placeholder: null,
-            theme: "acontainer"
+            theme: "default"
         }, options);
 
+
+        var cssClass = [["default", "adropdown"], ["classic", "aclassic"], ["white", "awhite"]];
+
+        // set theme
+        cssClass.filter(function (v, i) {
+            if (v[0] == settings.theme) {
+                settings.theme = v[1];
+                return;
+            }
+        });
+        
         // initialize DOM elements
         var el = {
-            ddDiv: $("<div>", { class: "adropdown" }),
+            ddDiv: $("<div>", { class: settings.theme }),
             ddTable: $("<table></table>", { style: "width:" + settings.width }),
             ddTableCaption: $("<caption>" + settings.norecord + "</caption>"),
             ddTextbox: $("<input type='text'>")
@@ -77,7 +88,7 @@
         var orginalTextBox = this;
 
         // wrap the div for style
-        this.wrap("<div class='" + settings.theme + "'></div>");
+        this.wrap("<div class='acontainer'></div>");
 
         // create a textbox for input
         this.after(el.ddTextbox);
@@ -109,6 +120,7 @@
 
         // append table after the new textbox
         el.ddDiv.append(el.ddTable);
+        el.ddTable.attr("cellspacing", "0");
 
         // append table caption
         el.ddTable.append(el.ddTableCaption);
