@@ -13,12 +13,23 @@
             regex: "^[a-zA-Z0-9\b]+$",
             data: null,
             placeholder: null,
-            theme: "acontainer"
+            theme: "default"
         }, options);
 
+
+        var cssClass = [["default", "adropdown"], ["classic", "aclassic"], ["white", "awhite"]];
+
+        // set theme
+        cssClass.filter(function (v, i) {
+            if (v[0] == settings.theme) {
+                settings.theme = v[1];
+                return;
+            }
+        });
+        
         // initialize DOM elements
         var el = {
-            ddDiv: $("<div>", { class: "adropdown" }),
+            ddDiv: $("<div>", { class: settings.theme }),
             ddTable: $("<table></table>", { style: "width:" + settings.width }),
             ddTableCaption: $("<caption>" + settings.norecord + "</caption>"),
             ddTextbox: $("<input type='text'>")
@@ -35,7 +46,7 @@
             columnNA: "Error: Columns Not Defined",
             dataNA: "Error: Data Not Available"
         };
-
+        
         // plugin properties
         var tautocomplete = {
             id: function () {
@@ -77,12 +88,12 @@
         var orginalTextBox = this;
 
         // wrap the div for style
-        this.wrap("<div class='" + settings.theme + "'></div>");
+        this.wrap("<div class='acontainer'></div>");
 
         // create a textbox for input
         this.after(el.ddTextbox);
         el.ddTextbox.attr("autocomplete", "off");
-        el.ddTextbox.css("width", this.width + "px");
+        el.ddTextbox.css("width", this.width + "px"); 
         el.ddTextbox.css("font-size", this.css("font-size"));
         el.ddTextbox.attr("placeholder", settings.placeholder);
 
@@ -109,6 +120,7 @@
 
         // append table after the new textbox
         el.ddDiv.append(el.ddTable);
+        el.ddTable.attr("cellspacing", "0");
 
         // append table caption
         el.ddTable.append(el.ddTableCaption);
@@ -253,7 +265,8 @@
             el.ddTextbox.focus();
         }
 
-        function onChange() {
+        function onChange()
+        {
             // onchange callback function
             if ($.isFunction(settings.onchange)) {
                 settings.onchange.call(this);
@@ -302,7 +315,7 @@
             }
         }
         function jsonParser(jsonData) {
-            try {
+            try{
                 el.ddTextbox.removeClass("loading");
 
                 // remove all rows from the table
@@ -337,7 +350,7 @@
                         el.ddTable.append("<tr>" + row + "</tr>");
                     }
                 }
-
+                //debugger;
                 // show no records exists
                 if (i == 0)
                     el.ddTableCaption.show();
@@ -348,7 +361,8 @@
                 el.ddTable.find("tbody").find("tr:first").addClass('selected');
                 showDropDown();
             }
-            catch (e) {
+            catch (e)
+            {
                 alert("Error: " + e);
             }
         }
