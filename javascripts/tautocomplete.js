@@ -13,9 +13,9 @@
             regex: "^[a-zA-Z0-9\b]+$",
             data: null,
             placeholder: null,
-            theme: "default"
+            theme: "default",
+            ajax: null
         }, options);
-
 
         var cssClass = [["default", "adropdown"], ["classic", "aclassic"], ["white", "awhite"]];
 
@@ -174,15 +174,55 @@
 
                 el.ddTextbox.addClass("loading");
 
-                if ($.isFunction(settings.data)) {
+                if (settings.ajax != null)
+                {
+                    var tempData = null;
+                    if ($.isFunction(settings.ajax.data)) {
+                        tempData = settings.ajax.data.call(this);
+                    }
+                    else{
+                        tempData = data;
+                    }
+                    // get json data
+                    $.ajax({
+                        type: settings.ajax.type || 'GET',
+                        dataType: 'json',
+                        contentType: settings.ajax.contentType || 'application/json; charset=utf-8',
+                        headers: settings.ajax.headers || { 'Content-Type': 'application/x-www-form-urlencoded' },
+                        data: tempData || null,
+                        url: settings.ajax.url,
+                        success: ajaxData,
+                        error: function (xhr, ajaxOptions, thrownError) {
+                            el.ddTextbox.removeClass("loading");
+                            alert('Error: ' + xhr.status || ' - ' || thrownError);
+                        }
+                    });
+                }
+                else if ($.isFunction(settings.data)) {
                     var data = settings.data.call(this);
                     jsonParser(data);
                 }
                 else {
                     // default function
+                    null;
                 }
             }, 1000);
         });
+
+        // call on Ajax success
+        function ajaxData(jsonData)
+        {
+            if (settings.ajax.success == null || settings.ajax.success == "" || (typeof settings.ajax.success === "undefined"))
+            {
+                jsonParser(jsonData);
+            }
+            else {
+                if ($.isFunction(settings.ajax.success)) {
+                    var data = settings.ajax.success.call(this, jsonData);
+                    jsonParser(data);
+                }
+            }
+        }
 
         // do not allow special characters
         el.ddTextbox.keypress(function (event) {

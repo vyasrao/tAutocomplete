@@ -114,6 +114,34 @@
                     alert("You selected \"" + myData3.text() + "\" and its ID is \"" + myData3.id() + "\"");
                 }
             });
+
+            var myData4 = $("#country4").tautocomplete({
+                width: "500px",
+                columns: ['Country', 'Code', 'Capital'],
+                placeholder: "Search Country",
+                theme: "white",
+                ajax: {
+                    url: "sampledata.json",
+                    type: "GET",
+                    success: function (result) {
+                        var filterData = [];
+
+                        var searchData = eval("/" + myData4.searchdata() + "/gi");
+
+                        $.each(result, function (i, v) {
+                            if (v.country.search(new RegExp(searchData)) != -1) {
+                                filterData.push(v);
+                            }
+                        });
+                        return filterData;
+                    }
+                },
+                onchange: function () {
+                    alert("You selected \"" + myData4.text() + "\" and its ID is \"" + myData4.id() + "\"");
+                }
+            });
+
+
         });
     </script>
     <title>Autocomplete-Table by vyasrao</title>
@@ -166,6 +194,12 @@
                 <p>(White theme)</p>
                 <div style="width: 100%; text-align: center;">
                     <input type="text" id="country3" style="width: 200px; font-size: 1em;" /><br />
+                    <br />
+                </div>
+
+                <p>Ajax</p>
+                <div style="width: 100%; text-align: center;">
+                    <input type="text" id="country4" style="width: 200px; font-size: 1em;" /><br />
                     <br />
                 </div>
 
@@ -242,6 +276,42 @@ In the below example, the textbox is used to search the countries. The function 
 }
 </code></pre>
 
+
+<h3><a name="properties" class="anchor" href="#properties"><span class="octicon octicon-link"></span></a>Ajax</h3>
+                
+                <p>url: Ajax URL, example:</p>
+
+                <pre><code>url: "sampledata.json"</code></pre>
+
+                <p>type: "GET" or "POST", default is "POST"</p>
+
+                <pre><code>type: "GET"</code></pre>
+
+                <p>data: parameters to be passed to the url</p>
+
+                <pre><code>data: { para1: "John", para2: "Boston",... }</code></pre>
+
+                <pre><code>data: function(){var x = { para1: myData2.searchdata(), para2: "Boston"}; return x;}</code></pre>
+
+                <p>success: Function to be exexcuted on successful call</p>
+
+                <pre><code>success: function (result) { //result is the Ajax result
+
+    var filterData = [];
+
+    var searchData = eval("/" + myData2.searchdata() + "/gi");
+
+    $.each(result, function (i, v) {
+        if (v.country.search(new RegExp(searchData)) != -1) {
+            filterData.push(v);
+        }
+    });
+    return filterData;
+}
+</code></pre>
+                <br />
+                <a href="ajaxcall.html">Click here for Ajax Sample</a>
+                <br /><br />
                 <h3>
                     <a name="properties" class="anchor" href="#properties"><span class="octicon octicon-link"></span></a>Properties</h3>
 
@@ -267,7 +337,7 @@ In the below example, the textbox is used to search the countries. The function 
                 <ol>
                     <li>Not mobile friendly.</li>
                     <li>Dropdown lists only 15 elements at a time. Scrollbars needs to be added.</li>
-                    <li>Option to add 'Data propoerties' to the textbox can be provided.</li>
+                    <li>Option to add 'Data Properties' to the textbox can be provided.</li>
                 </ol>
                 <br /><br /><br /><br />
                 <h3><a name="properties" class="anchor" href="#properties"><span class="octicon octicon-link"></span></a>Discuss on the Plugin</h3>
