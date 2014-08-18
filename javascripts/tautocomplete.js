@@ -101,7 +101,7 @@
         if (settings.columns == "" || settings.columns == null) {
             el.ddTextbox.attr("placeholder", errors.columnNA);
         }
-        else if (settings.data == "" || settings.data == null) {
+        else if ((settings.data == "" || settings.data == null) && settings.ajax == null) {
             el.ddTextbox.attr("placeholder", errors.dataNA);
         }
 
