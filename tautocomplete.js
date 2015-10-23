@@ -181,7 +181,7 @@
                         tempData = settings.ajax.data.call(this);
                     }
                     else{
-                        tempData = data;
+                        tempData = settings.ajax.data;
                     }
                     // get json data
                     $.ajax({
