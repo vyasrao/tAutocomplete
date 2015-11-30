@@ -7,6 +7,7 @@
         var settings = $.extend({
             width: "500px",
             columns: [],
+            hide: [false],
             onchange: null,
             norecord: "No Records Found",
             dataproperty: null,
@@ -14,18 +15,17 @@
             data: null,
             placeholder: null,
             theme: "default",
-            ajax: null
+            ajax: null,
+            delay: 1000,
+            highlight:'word-highlight'
         }, options);
 
-        var cssClass = [["default", "adropdown"], ["classic", "aclassic"], ["white", "awhite"]];
+        var cssClass = {
+            "default": "adropdown", 
+            "classic": "aclassic",
+            "white": "awhite"};
 
-        // set theme
-        cssClass.filter(function (v, i) {
-            if (v[0] == settings.theme) {
-                settings.theme = v[1];
-                return;
-            }
-        });
+        settings.theme = cssClass[settings.theme];
         
         // initialize DOM elements
         var el = {
@@ -39,7 +39,8 @@
             UP: 38,
             DOWN: 40,
             ENTER: 13,
-            TAB: 9
+            TAB: 9,
+            BACKSPACE: 8
         };
 
         var errors = {
@@ -58,11 +59,17 @@
             searchdata: function () {
                 return el.ddTextbox.val();
             },
+            settext: function (text) {
+                el.ddTextbox.val(text);
+            },
             isNull: function () {
-                if (el.ddTextbox.data("id") == "")
+                if (el.ddTextbox.data("text") == "" || el.ddTextbox.data("text") == null)
                     return true;
                 else
                     return false;
+            },
+            all: function(){
+                return selectedData;
             }
         };
 
@@ -74,6 +81,9 @@
                 timer = setTimeout(callsback, ms);
             };
         })();
+
+        // key/value containing data of the selcted row
+        var selectedData = {};
 
         var focused = false;
 
@@ -104,14 +114,7 @@
         else if ((settings.data == "" || settings.data == null) && settings.ajax == null) {
             el.ddTextbox.attr("placeholder", errors.dataNA);
         }
-
-        // append data property
-        if (settings.dataproperty != null) {
-            for (var key in settings.dataproperty) {
-                el.ddTextbox.attr("data-" + key, settings.dataproperty[key]);
-            }
-        }
-
+        
         // append div after the textbox
         this.after(el.ddDiv);
 
@@ -157,57 +160,62 @@
         // autocomplete key press
         el.ddTextbox.keyup(function (e) {
             //return if up/down/return key
-            if ((e.keyCode < 46 || e.keyCode > 90) && (e.keyCode != 8)) {
+            if ((e.keyCode < 46 || e.keyCode > 105) && (e.keyCode != keys.BACKSPACE)) {
                 e.preventDefault();
                 return;
             }
-
             //delay for 1 second: wait for user to finish typing
             delay(function () {
-                if (el.ddTextbox.val() == "") {
+                processInput();
+            }, settings.delay);
+        });
+
+        // process input
+        function processInput()
+        {
+            if (el.ddTextbox.val() == "") {
                     hideDropDown();
                     return;
+            }
+
+            // hide no record found message
+            el.ddTableCaption.hide();
+
+            el.ddTextbox.addClass("loading");
+
+            if (settings.ajax != null)
+            {
+                var tempData = null;
+                if ($.isFunction(settings.ajax.data)) {
+                    tempData = settings.ajax.data.call(this);
                 }
-
-                // hide no record found message
-                el.ddTableCaption.hide();
-
-                el.ddTextbox.addClass("loading");
-
-                if (settings.ajax != null)
-                {
-                    var tempData = null;
-                    if ($.isFunction(settings.ajax.data)) {
-                        tempData = settings.ajax.data.call(this);
+                else{
+                    tempData = settings.ajax.data;
+                }
+                // get json data
+                $.ajax({
+                    type: settings.ajax.type || 'GET',
+                    dataType: 'json',
+                    contentType: settings.ajax.contentType || 'application/json; charset=utf-8',
+                    headers: settings.ajax.headers || { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    data: tempData || null,
+                    url: settings.ajax.url,
+                    success: ajaxData,
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        el.ddTextbox.removeClass("loading");
+                        alert('Error: ' + xhr.status || ' - ' || thrownError);
                     }
-                    else{
-                        tempData = settings.ajax.data;
-                    }
-                    // get json data
-                    $.ajax({
-                        type: settings.ajax.type || 'GET',
-                        dataType: 'json',
-                        contentType: settings.ajax.contentType || 'application/json; charset=utf-8',
-                        headers: settings.ajax.headers || { 'Content-Type': 'application/x-www-form-urlencoded' },
-                        data: tempData || null,
-                        url: settings.ajax.url,
-                        success: ajaxData,
-                        error: function (xhr, ajaxOptions, thrownError) {
-                            el.ddTextbox.removeClass("loading");
-                            alert('Error: ' + xhr.status || ' - ' || thrownError);
-                        }
-                    });
-                }
-                else if ($.isFunction(settings.data)) {
-                    var data = settings.data.call(this);
-                    jsonParser(data);
-                }
-                else {
-                    // default function
-                    null;
-                }
-            }, 1000);
-        });
+                });
+            }
+            else if ($.isFunction(settings.data)) {
+                var data = settings.data.call(this);
+                jsonParser(data);
+            }
+            else {
+                // default function
+                null;
+            }
+        }
 
         // call on Ajax success
         function ajaxData(jsonData)
@@ -296,8 +304,15 @@
         function select() {
 
             var selected = el.ddTable.find("tbody").find(".selected");
+
             el.ddTextbox.data("id", selected.find('td').eq(0).text());
             el.ddTextbox.data("text", selected.find('td').eq(1).text());
+
+            for(var i=0; i < cols; i++)
+            {
+                selectedData[settings.columns[i]] = selected.find('td').eq(i).text();
+            }
+            
             el.ddTextbox.val(selected.find('td').eq(1).text());
             orginalTextBox.val(selected.find('td').eq(0).text() + '#$#' + selected.find('td').eq(1).text());
             hideDropDown();
@@ -361,6 +376,13 @@
                 // remove all rows from the table
                 el.ddTable.find("tbody").find("tr").remove();
 
+                // regular expression for word highlight
+                var re = null;
+                if(settings.highlight != null){
+                    var highlight = true;
+                    var re = new RegExp(el.ddTextbox.val(),"gi");
+                }
+
                 var i = 0, j = 0;
                 var row = null, cell = null;
                 if (jsonData != null) {
@@ -378,7 +400,11 @@
 
                             // return on column count
                             if (j <= cols) {
-                                cell = obj[key];
+                                cell = obj[key] + "";
+
+                                if(highlight){
+                                    cell = cell.replace(re,"<span class='" + settings.highlight + "'>$&</span>");
+                                }
                                 row = row + "<td>" + cell + "</td>";
                             }
                             else {
@@ -390,13 +416,16 @@
                         el.ddTable.append("<tr>" + row + "</tr>");
                     }
                 }
-                //debugger;
                 // show no records exists
                 if (i == 0)
                     el.ddTableCaption.show();
 
-                // hide first column (ID row)
-                el.ddTable.find('td:nth-child(1)').hide();
+                // hide columns
+                for(var i=0; (i< settings.hide.length) && (i< cols) ; i++)
+                {
+                    if(!settings.hide[i])
+                        el.ddTable.find('td:nth-child('+ (i+1) +')').hide();
+                }
 
                 el.ddTable.find("tbody").find("tr:first").addClass('selected');
                 showDropDown();
@@ -420,6 +449,7 @@ function isDivHeightVisible(elem) {
     return ((elemBottom >= docViewTop) && (elemTop <= docViewBottom)
       && (elemBottom <= docViewBottom) && (elemTop >= docViewTop));
 }
+
 function isDivWidthVisible(elem) {
     var docViewLeft = $(window).scrollLeft();
     var docViewRight = docViewLeft + $(window).width();
