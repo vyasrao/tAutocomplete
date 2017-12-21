@@ -1,3 +1,6 @@
+Project not maintained anymore, happy to transfer the owenership!
+=============
+
 tAutocomplete
 =============
 
